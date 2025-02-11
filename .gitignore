@@ -1,0 +1,9 @@
+# Doesn't contain sensitive files
+# Contains provider plugins, module cache
+# Excluded to avoid bloating the rpo
+.terraform/
+
+# Most improtant files to ifnore as they contain credeentials by terraform
+terraform.tfstate
+terraform.tfstate.backup
+
