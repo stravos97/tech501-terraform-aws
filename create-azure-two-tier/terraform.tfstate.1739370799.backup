@@ -1,0 +1,60 @@
+{
+  "version": 4,
+  "terraform_version": "1.10.5",
+  "serial": 9,
+  "lineage": "ac9075f0-eaf7-6062-ac6e-101cfee968ae",
+  "outputs": {
+    "vm_public_ip": {
+      "value": null,
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "azurerm_resource_group",
+      "name": "tech501",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/cd36dfff-6e85-4164-b64e-b4078a773259/resourceGroups/tech501",
+            "location": "uksouth",
+            "managed_by": "",
+            "name": "tech501",
+            "tags": {
+              "Owner": "Ramon"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_resource_group",
+      "name": "tech501",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/cd36dfff-6e85-4164-b64e-b4078a773259/resourceGroups/tech501",
+            "location": "uksouth",
+            "managed_by": "",
+            "name": "tech501",
+            "tags": {
+              "Owner": "Ramon"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIwIn0="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
