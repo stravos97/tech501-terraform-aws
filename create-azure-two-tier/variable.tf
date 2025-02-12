@@ -1,21 +1,41 @@
-# Resource Group and Subscription Variables
 variable "resource_group_name" {
   description = "Name of the existing resource group"
   type        = string
   default     = "tech501"
 }
 
-variable "subscription_id" {
-  description = "Subscription ID"
-  type        = string
-  default     = "cd36dfff-6e85-4164-b64e-b4078a773259"
-}
-
-# Network Variables
 variable "vnet_name" {
   description = "Name of the virtual network"
   type        = string
   default     = "tech501-haashim-subnet-vnet"
+}
+
+variable "subscription_id" {
+  description = "Subscription ID"
+  type        = string
+  default     = "cd36dfff-6e85-4164-b64e-b4078a773259"
+
+}
+
+variable "resource_provider_registrations" {
+  description = "Resource provider registrations"
+  type        = string
+  default     = "none"
+
+}
+
+variable "disk_caching" {
+  description = "Caching for the managed disk"
+  type        = string
+  default     = "ReadWrite"
+
+}
+
+variable "disk_storage_account_type" {
+  description = "Type of storage account"
+  type        = string
+  default     = "Standard_LRS"
+
 }
 
 variable "vnet_address_space" {
@@ -48,7 +68,6 @@ variable "app_nic_name" {
   default     = "tech501-haashim-vm-nic"
 }
 
-# Virtual Machine Variables
 variable "app_vm_name" {
   description = "Name of the virtual machine"
   type        = string
@@ -73,29 +92,8 @@ variable "app_source_image_id" {
   default     = "/subscriptions/cd36dfff-6e85-4164-b64e-b4078a773259/resourceGroups/tech501/providers/Microsoft.Compute/images/tech501-haashim-ready-to-run-app-vm-img"
 }
 
-# Storage and Disk Variables
-variable "disk_caching" {
-  description = "Caching for the managed disk"
-  type        = string
-  default     = "ReadWrite"
-}
-
-variable "disk_storage_account_type" {
-  description = "Type of storage account"
-  type        = string
-  default     = "Standard_LRS"
-}
-
-# Authentication Variables
 variable "ssh_key_path" {
   description = "Path to SSH public key"
   type        = string
   default     = "~/.ssh/id_rsa.pub"
-}
-
-# Provider Variables
-variable "resource_provider_registrations" {
-  description = "Resource provider registrations"
-  type        = string
-  default     = "none"
 }
