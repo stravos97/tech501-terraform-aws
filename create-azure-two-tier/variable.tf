@@ -11,37 +11,37 @@ variable "vnet_name" {
 }
 
 variable "subscription_id" {
-    description = "Subscription ID"
-    type        = string
-    default     = "cd36dfff-6e85-4164-b64e-b4078a773259"
-  
+  description = "Subscription ID"
+  type        = string
+  default     = "cd36dfff-6e85-4164-b64e-b4078a773259"
+
 }
 
 variable "resource_provider_registrations" {
   description = "Resource provider registrations"
   type        = string
   default     = "none"
-  
+
 }
 
 variable "disk_caching" {
   description = "Caching for the managed disk"
   type        = string
   default     = "ReadWrite"
-  
+
 }
 
 variable "disk_storage_account_type" {
   description = "Type of storage account"
   type        = string
   default     = "Standard_LRS"
-  
+
 }
 
 variable "vnet_address_space" {
   description = "Address space for Virtual Network"
   type        = string
-  default     = ["10.0.0.0/16"]
+  default     = "10.0.0.0/16"
 }
 
 variable "app_subnet_name" {
@@ -53,7 +53,7 @@ variable "app_subnet_name" {
 variable "app_subnet_address_prefix" {
   description = "Address prefix for subnet"
   type        = string
-  default     = ["10.0.1.0/24"]
+  default     = "10.0.1.0/24"
 }
 
 variable "app_public_ip_name" {
