@@ -3,7 +3,8 @@
 # Excluded to avoid bloating the rpo
 .terraform/
 
-# Most improtant files to ifnore as they contain credeentials by terraform
+# Most improtant files to ignore as they contain credeentials by terraform
 terraform.tfstate
 terraform.tfstate.backup
+variables.tf
 
