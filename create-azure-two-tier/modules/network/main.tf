@@ -1,16 +1,8 @@
-# Create a virtual network
-resource "azurerm_virtual_network" "vnet" {
-  name                = var.vnet_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  address_space       = [var.vnet_address_space]
-}
-
-# Create a subnet
+# Create a subnet in the existing VNet
 resource "azurerm_subnet" "subnet" {
   name                 = var.app_subnet_name
   resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.vnet.name
+  virtual_network_name = var.vnet_name
   address_prefixes     = [var.app_subnet_prefix]
 }
 
@@ -28,6 +20,12 @@ resource "azurerm_network_interface" "nic" {
   resource_group_name = var.resource_group_name
   location            = var.location
 
+  depends_on = [azurerm_network_security_group.nsg]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
   ip_configuration {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
@@ -41,6 +39,10 @@ resource "azurerm_network_security_group" "nsg" {
   name                = var.nsg_name
   resource_group_name = var.resource_group_name
   location            = var.location
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
   security_rule {
     name                       = "AllowSSH"
@@ -71,4 +73,29 @@ resource "azurerm_network_security_group" "nsg" {
 resource "azurerm_network_interface_security_group_association" "nic_nsg_association" {
   network_interface_id      = azurerm_network_interface.nic.id
   network_security_group_id = azurerm_network_security_group.nsg.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [
+    azurerm_network_interface.nic,
+    azurerm_network_security_group.nsg
+  ]
+}
+
+# Add a null_resource to handle NSG disassociation
+resource "null_resource" "nsg_cleanup" {
+  triggers = {
+    nic_id = azurerm_network_interface.nic.id
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "az network nic update --ids ${self.triggers.nic_id} --remove networkSecurityGroup || true"
+  }
+
+  depends_on = [
+    azurerm_network_interface_security_group_association.nic_nsg_association
+  ]
 }
