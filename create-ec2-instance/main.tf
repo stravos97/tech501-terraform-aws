@@ -8,7 +8,6 @@ data "aws_vpc" "default" {
   default = true
 }
 
-
 resource "aws_instance" "app_instance" {
   # which AMI ID
   ami = var.instance_ami_id
