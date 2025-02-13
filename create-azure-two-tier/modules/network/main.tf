@@ -104,6 +104,36 @@ resource "azurerm_network_security_group" "nsg" {
       destination_address_prefix = "*"
     }
   }
+
+  dynamic "security_rule" {
+    for_each = var.is_public_subnet ? [] : [1]
+    content {
+      name                       = "AllowMongoDBInbound"
+      priority                   = 1003
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "27017"
+      source_address_prefix      = var.app_subnet_prefix
+      destination_address_prefix = "*"
+    }
+  }
+
+  dynamic "security_rule" {
+    for_each = var.is_public_subnet ? [] : [1]
+    content {
+      name                       = "AllowMongoDBOutbound"
+      priority                   = 1003
+      direction                  = "Outbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "27017"
+      source_address_prefix      = "*"
+      destination_address_prefix = var.app_subnet_prefix
+    }
+  }
 }
 
 # Associate NSG with the network interface

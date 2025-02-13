@@ -12,3 +12,8 @@ output "subnet_id" {
   description = "Subnet ID"
   value       = azurerm_subnet.subnet.id
 }
+
+output "private_ip" {
+  description = "Private IP address of the network interface"
+  value       = azurerm_network_interface.nic.private_ip_address
+}

@@ -20,9 +20,16 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   disable_password_authentication = true
 
-  custom_data = base64encode(<<-EOF
+  custom_data = var.db_ip != null ? base64encode(<<-EOF
     #!/bin/bash
-    # Add your custom initialization script here
+    export DB_HOST=mongodb://${var.db_ip}:27017/posts
+    pm2 status
+    cd /repo/app
+    pm2 start app.js
+    EOF
+  ) : base64encode(<<-EOF
+    #!/bin/bash
+    # DB VM initialization script
     EOF
   )
 }
