@@ -31,6 +31,7 @@ module "network_app" {
   app_public_ip_name = var.app_public_ip_name
   app_nic_name       = var.app_nic_name
   nsg_name           = var.nsg_name
+  is_public_subnet   = true
 }
 
 module "compute_app" {
@@ -45,6 +46,11 @@ module "compute_app" {
   disk_caching         = var.disk_caching
   disk_storage_type    = var.disk_storage_account_type
   network_interface_id = module.network_app.nic_id
+
+  # Make it depend on the DB module
+  depends_on = [
+    module.compute_db
+  ]
 }
 
 ### Database (DB) Resources
@@ -54,13 +60,14 @@ module "network_db" {
   source              = "./modules/network"
   resource_group_name = data.azurerm_resource_group.tech501.name
   location            = data.azurerm_resource_group.tech501.location
-  vnet_name           = module.vnet.vnet_name  # Using the same VNet as app
+  vnet_name           = module.vnet.vnet_name # Using the same VNet as app
 
   app_subnet_name    = var.db_subnet
   app_subnet_prefix  = var.db_subnet_address_prefix_db
   app_public_ip_name = var.db_public_ip
   app_nic_name       = var.db_nic
   nsg_name           = var.db_nsg
+  is_public_subnet   = false
 }
 
 module "compute_db" {

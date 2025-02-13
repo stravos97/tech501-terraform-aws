@@ -6,8 +6,9 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = [var.app_subnet_prefix]
 }
 
-# Create a public IP
+# Create a public IP if this is a public subnet
 resource "azurerm_public_ip" "public_ip" {
+  count               = var.is_public_subnet ? 1 : 0
   name                = var.app_public_ip_name
   resource_group_name = var.resource_group_name
   location            = var.location
@@ -30,7 +31,7 @@ resource "azurerm_network_interface" "nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.public_ip.id
+    public_ip_address_id          = var.is_public_subnet ? azurerm_public_ip.public_ip[0].id : null
   }
 }
 
@@ -44,28 +45,64 @@ resource "azurerm_network_security_group" "nsg" {
     create_before_destroy = true
   }
 
-  security_rule {
-    name                       = "AllowSSH"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+  dynamic "security_rule" {
+    for_each = var.is_public_subnet ? [1] : []
+    content {
+      name                       = "AllowSSH"
+      priority                   = 1001
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    }
   }
 
-  security_rule {
-    name                       = "AllowHTTP"
-    priority                   = 1002
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "80"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+  dynamic "security_rule" {
+    for_each = var.is_public_subnet ? [1] : []
+    content {
+      name                       = "AllowHTTP"
+      priority                   = 1002
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "80"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    }
+  }
+
+  dynamic "security_rule" {
+    for_each = var.is_public_subnet ? [] : [1]
+    content {
+      name                       = "AllowPort3000"
+      priority                   = 1001
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "3000"
+      source_address_prefix      = var.app_subnet_prefix
+      destination_address_prefix = "*"
+    }
+  }
+
+  dynamic "security_rule" {
+    for_each = var.is_public_subnet ? [] : [1]
+    content {
+      name                       = "AllowSSHFromAppSubnet"
+      priority                   = 1002
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      source_address_prefix      = var.app_subnet_prefix
+      destination_address_prefix = "*"
+    }
   }
 }
 
