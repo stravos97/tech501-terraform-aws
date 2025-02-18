@@ -46,7 +46,7 @@ module "compute_app" {
   disk_caching         = var.disk_caching
   disk_storage_type    = var.disk_storage_account_type
   network_interface_id = module.network_app.nic_id
-  db_ip               = module.network_db.private_ip
+  db_ip                = module.network_db.private_ip
 
   # Make it depend on the DB module
   depends_on = [
