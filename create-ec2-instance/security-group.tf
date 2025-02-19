@@ -1,7 +1,7 @@
 # Create a new security group
 resource "aws_security_group" "app_sg" {
   name        = var.security_group_name
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_vpc.default.id
 
   # Inbound rule: allow SSH access
   ingress {

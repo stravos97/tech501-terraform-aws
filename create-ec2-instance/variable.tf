@@ -36,13 +36,6 @@ variable "security_group_name" {
   default     = "tech501-haashim-sg"
 }
 
-# Network Configuration
-variable "vpc_id" {
-  description = "The ID of the VPC to use"
-  type        = string
-  default     = "data.aws_vpc.default.id"
-}
-
 variable "protocol" {
   description = "The protocol to use for the security group rule"
   type        = string
