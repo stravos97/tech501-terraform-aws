@@ -1,8 +1,14 @@
 # EC2 Instance Configuration
-variable "instance_name" {
-  description = "The name of the EC2 instance"
+variable "app_instance_name" {
+  description = "Name for the app instance"
   type        = string
-  default     = "tech501-haashim-app"
+  default     = "sparta-app-vm"
+}
+
+variable "db_instance_name" {
+  description = "Name for the database instance"
+  type        = string
+  default     = "sparta-db-vm"
 }
 
 variable "instance_type" {

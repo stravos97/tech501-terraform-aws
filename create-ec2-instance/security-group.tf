@@ -32,14 +32,15 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks = [var.public_access_cidr] # Open for external connections
   }
 
-  #   # Inbound rule: allow Node
-  #   egress {
-  #     description = "Allow only Node outbound traffic"
-  #     from_port   = 3000
-  #     to_port     = 3000
-  #     protocol    = "tcp"
-  #     cidr_blocks = ["0.0.0.0/0"]
-  #   }
+  # Inbound rule: allow MongoDB traffic
+  ingress {
+    description = "Allow MongoDB traffic"
+    from_port   = 27017
+    to_port     = 27017
+    protocol    = var.protocol
+    cidr_blocks = [var.public_access_cidr] # Allow MongoDB connections
+  }
+
 
   # Outbound rule: allow all outbound traffic
   egress {
