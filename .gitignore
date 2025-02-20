@@ -7,4 +7,5 @@
 terraform.tfstate
 terraform.tfstate.backup
 variables.tf
+variable.tf
 
