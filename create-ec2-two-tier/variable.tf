@@ -2,13 +2,13 @@
 variable "app_instance_name" {
   description = "Name for the app instance"
   type        = string
-  default     = "sparta-app-vm"
+  default     = "tech501-haashim-sparta-app-vm"
 }
 
 variable "db_instance_name" {
   description = "Name for the database instance"
   type        = string
-  default     = "sparta-db-vm"
+  default     = "tech501-haashim-sparta-db-vm"
 }
 
 variable "instance_type" {
