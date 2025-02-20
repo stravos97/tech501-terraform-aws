@@ -34,10 +34,10 @@ graph TD
     end
     
     subgraph "Standard Flow"
-        C -->|1. Create Infrastructure| H[Terraform Apply]
-        H -->|2. Configure DB| I[DB User Data]
-        I -->|3. Wait 5 min| J[Time Sleep]
-        J -->|4. Configure App| K[App User Data]
+        C -->|"Step 1: Create Infrastructure"| H[Terraform Apply]
+        H -->|"Step 2: Configure DB"| I[DB User Data]
+        I -->|"Step 3: Wait 5 min"| J[Time Sleep]
+        J -->|"Step 4: Configure App"| K[App User Data]
     end
 ```
 
