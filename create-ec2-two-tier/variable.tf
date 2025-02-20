@@ -60,3 +60,9 @@ variable "public_access_cidr" {
   type        = string
   default     = "0.0.0.0/0"
 }
+
+variable "private_key_path" {
+  description = "Path to the private key file for SSH access"
+  type        = string
+  default     = "/Users/haashimalvi/.ssh/id_rsa"
+}

@@ -1,7 +1,7 @@
 # Create a new security group
 resource "aws_security_group" "app_sg" {
-  name        = var.security_group_name
-  vpc_id      = data.aws_vpc.default.id
+  name   = var.security_group_name
+  vpc_id = data.aws_vpc.default.id
 
   # Inbound rule: allow SSH access
   ingress {
@@ -9,7 +9,7 @@ resource "aws_security_group" "app_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = var.protocol
-    cidr_blocks = [var.ssh_allowed_cidr]  # Restrict SSH access to your specific IP
+    cidr_blocks = [var.ssh_allowed_cidr] # Restrict SSH access to your specific IP
   }
 
   # Inbound rule: allow HTTP access
@@ -22,8 +22,6 @@ resource "aws_security_group" "app_sg" {
   }
 
   # Inbound rule: allow Node.js app traffic on port 3000
-  #   If you want to only allow outbound Node traffic, it should be a matching ingress rule, not an egress rule.
-  #   If you only allow this, you won't be able to connect to the internet
   ingress {
     description = "Allow inbound Node.js traffic"
     from_port   = 3000
@@ -40,7 +38,6 @@ resource "aws_security_group" "app_sg" {
     protocol    = var.protocol
     cidr_blocks = [var.public_access_cidr] # Allow MongoDB connections
   }
-
 
   # Outbound rule: allow all outbound traffic
   egress {
